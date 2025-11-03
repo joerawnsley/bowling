@@ -13,7 +13,6 @@ class BowlingTest(unittest.TestCase):
      def test_result_of_double_roll(self):
          print(self._testMethodName)
          assert calculate_total_score("71") == 8
-     # originally, I wrote this test with 4 and 7, adding up to 11, checked it failed, and wrote the code to pass the test. I then realised that it isn't possible to get a 4 and a 7 so I changed the test to 7 and 1. It still passed but I think this goes against the TDD principle because the test should fail the first time I run it?
 
      def test_result_of_strike(self):
           print(self._testMethodName)
@@ -34,8 +33,6 @@ class BowlingTest(unittest.TestCase):
           
      
      
-     # after passing the above test, I wanted to add some more tests to check if it still works for a longer series of say three scores or ten scores. If I add these tests now, I would expect them to pass - if they do, is it bad that they passed straight away, and how do I avoid that situation?
-
      def test_series_of_five_scores(self):
           print(self._testMethodName)
           assert calculate_total_score("8- 42 9- 16 44") == 38
@@ -44,16 +41,10 @@ class BowlingTest(unittest.TestCase):
           print(self._testMethodName)
           assert calculate_total_score("6- 53 -2 81 34 61 18 33 52 -1") == 62
     
-     # the above tests passed first time as expected
-
      def test_series_including_strike(self):
           print(self._testMethodName)
           assert calculate_total_score("41 X -6") == 27
      
-     
-
-     # another question is should it be one test at a time? I wrote this test and the nexttest at the same time, then realised that perhaps I should do them one at a time to follow TDD principles
-
      def test_series_including_two_strikes(self):
           print(self._testMethodName)
           assert calculate_total_score("43 X X 71 42") == 59
