@@ -54,43 +54,40 @@ class BowlingTest(unittest.TestCase):
           print(self._testMethodName)
           assert calculate_total_score("35 4/ 34") == 28
 
+     @unittest.skip
+     def test_series_including_final_round_bonuses(self):
+          print(self._testMethodName)
+          assert calculate_total_score("00 00 00 5/3") == 13
+          assert calculate_total_score("00 00 00 5/X") == 20
+          assert calculate_total_score("00 00 00 XX7") == 27
+          assert calculate_total_score("00 00 00 X34") == 17
+          assert calculate_total_score("00 00 00 X7/") == 20
+          assert calculate_total_score("00 00 00 X7/") == 30
 
 # - - - - - - - -
 
-carry_over = 0
-
 def calculate_frame_score(score):
      score = score.replace("-", "0")
-     global carry_over
      if len(score) == 0:
                return 0
      if score == "X":
-               this_frame_score = carry_over + 10
-               carry_over = 10
-               return this_frame_score
+               return 10
      if len(score) == 1 and score.isnumeric():
-               carry_over = int(score)
                return int(score)
-     if len(score) == 2 and score.isnumeric():
+     elif score.isnumeric():
           this_frame_score = 0
           for digit in score:
                     this_frame_score += int(digit)
-          carry_over = this_frame_score
           return this_frame_score
      if len(score) == 2 and score[1] == "/":
-          this_frame_score = 10
-          carry_over = this_frame_score
-          return this_frame_score
+          return 10
 
 
 def calculate_total_score(series):
-     list_of_frames = reversed(series.split())
+     list_of_frames = series.split()
      total_score = 0
-     global carry_over
-     carry_over = 0
      for frame in list_of_frames:
           total_score += calculate_frame_score(frame)
-          print("carry over", carry_over)
      print("total score", total_score)
      return total_score
 
