@@ -2,90 +2,150 @@ import unittest
 
 class BowlingTest(unittest.TestCase):
 
-     def test_result_of_no_pins(self):
-        test_result = calculate_total_score("")
-        print(self._testMethodName)
-        print(test_result)
-        assert test_result == 0
-
+     def check_result_and_print_output(self, input_string, expected_total):
+          test_result = calculate_total_score(input_string)
+          print(self._testMethodName)
+          print("should be", expected_total)
+          print("returned", test_result)
+          assert test_result == expected_total
+  
      def test_result_of_one_roll(self):
-        test_result = calculate_total_score("1")
-        print(self._testMethodName)
-        print(test_result)
-        assert test_result == 1
-
+          self.check_result_and_print_output("1", 1)
+          
      def test_result_of_double_roll(self):
-         test_result = calculate_total_score("71")
-         print(self._testMethodName)
-         print(test_result)
-         assert test_result == 8
-
+          self.check_result_and_print_output("71", 8)
+     
      def test_result_of_strike(self):
-          test_result = calculate_total_score("X")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 10
-          
+          self.check_result_and_print_output("X", 10)
+     
      def test_result_of_spare(self):
-          test_result = calculate_total_score("5/")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 10
-
+          self.check_result_and_print_output("5/", 10)
+     
      def test_dash_is_zero(self):
-          test_result =  calculate_total_score("-2")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 2
-
+          self.check_result_and_print_output("-2", 2)
+     
      def test_series_of_two_scores(self):
-          test_result = calculate_total_score("45 -7")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 16
-          
+          self.check_result_and_print_output("45 -7", 16)
+     
      def test_series_of_five_scores(self):
-          test_result = calculate_total_score("8- 42 9- 16 44")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 38
-
+          self.check_result_and_print_output("8- 42 9- 16 44", 38)
+     
      def test_series_of_ten_scores(self):
-          test_result = calculate_total_score("6- 53 -2 81 34 61 18 33 52 -1")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 62
-    
-     # @unittest.skip
+          self.check_result_and_print_output("6- 53 -2 81 34 61 18 33 52 -1", 62)
+     
      def test_series_including_strike(self):
-          test_result = calculate_total_score("41 X -6")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 27
+          self.check_result_and_print_output("41 X -6", 27)
+
+     def test_series_including_two_strikes(self):
+          self.check_result_and_print_output("43 X X 71 42", 59)
      
      @unittest.skip
-     def test_series_including_two_strikes(self):
-          test_result = calculate_total_score("43 X X 71 42") 
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 59
-
-     @unittest.skip
      def test_series_including_spare(self):
-          test_result = calculate_total_score("35 4/ 34")
-          print(self._testMethodName)
-          print(test_result)
-          assert test_result == 28
-
+          self.check_result_and_print_output("35 4/ 34", 28)
+     
      @unittest.skip
      def test_series_including_final_round_bonuses(self):
-          print(self._testMethodName)
-          assert calculate_total_score("00 00 00 5/3") == 13
-          assert calculate_total_score("00 00 00 5/X") == 20
-          assert calculate_total_score("00 00 00 XX7") == 27
-          assert calculate_total_score("00 00 00 X34") == 17
-          assert calculate_total_score("00 00 00 X7/") == 20
-          assert calculate_total_score("00 00 00 X7/") == 30
+          self.check_result_and_print_output("00 00 00 5/3", 0)
+     
+     @unittest.skip
+     def test_series_including_final_round_bonuses(self):
+          self.check_result_and_print_output("00 00 00 5/X", 0)
+     
+     @unittest.skip
+     def test_series_including_final_round_bonuses(self):
+          self.check_result_and_print_output("00 00 00 XX7", 0)
+     
+     @unittest.skip
+     def test_series_including_final_round_bonuses(self):
+          self.check_result_and_print_output("00 00 00 X34", 0)
+     
+     @unittest.skip
+     def test_series_including_final_round_bonuses(self):
+          self.check_result_and_print_output("00 00 00 X7/", 0)
+     
+     @unittest.skip
+     def test_series_including_final_round_bonuses(self):
+          self.check_result_and_print_output("00 00 00 XXX", 0)
+
+
+     # def test_result_of_one_roll(self):
+     #    test_result = calculate_total_score("1")
+     #    print(self._testMethodName)
+     #    print(test_result)
+     #    assert test_result == 1
+
+     # def test_result_of_double_roll(self):
+     #     test_result = calculate_total_score("71")
+     #     print(self._testMethodName)
+     #     print(test_result)
+     #     assert test_result == 8
+
+     # def test_result_of_strike(self):
+     #      test_result = calculate_total_score("X")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 10
+          
+     # def test_result_of_spare(self):
+     #      test_result = calculate_total_score("5/")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 10
+
+     # def test_dash_is_zero(self):
+     #      test_result =  calculate_total_score("-2")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 2
+
+     # def test_series_of_two_scores(self):
+     #      test_result = calculate_total_score("45 -7")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 16
+          
+     # def test_series_of_five_scores(self):
+     #      test_result = calculate_total_score("8- 42 9- 16 44")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 38
+
+     # def test_series_of_ten_scores(self):
+     #      test_result = calculate_total_score("6- 53 -2 81 34 61 18 33 52 -1")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 62
+    
+     # # @unittest.skip
+     # def test_series_including_strike(self):
+     #      test_result = calculate_total_score("41 X -6")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 27
+     
+     # @unittest.skip
+     # def test_series_including_two_strikes(self):
+     #      test_result = calculate_total_score("43 X X 71 42") 
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 59
+
+     # @unittest.skip
+     # def test_series_including_spare(self):
+     #      test_result = calculate_total_score("35 4/ 34")
+     #      print(self._testMethodName)
+     #      print(test_result)
+     #      assert test_result == 28
+
+     # @unittest.skip
+     # def test_series_including_final_round_bonuses(self):
+     #      print(self._testMethodName)
+     #      assert calculate_total_score("00 00 00 5/3") == 13
+     #      assert calculate_total_score("00 00 00 5/X") == 20
+     #      assert calculate_total_score("00 00 00 XX7") == 27
+     #      assert calculate_total_score("00 00 00 X34") == 17
+     #      assert calculate_total_score("00 00 00 X7/") == 20
+     #      assert calculate_total_score("00 00 00 X7/") == 30
 
 # - - - - - - - -
 
