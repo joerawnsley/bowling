@@ -67,7 +67,14 @@ class BowlingTest(unittest.TestCase):
      def test_series_including_final_round_bonuses(self):
           self.check_result_and_print_output("00 00 00 XXX", 0)
 
-def calculate_frame_score(score):
+class Frame:
+     def __init__(self, scores, index):
+          self.frameTotal = calculate_frame_total(scores)
+          self.firstRoll = scores[0]
+          self.index = index
+           
+
+def calculate_frame_total(score):
      score = score.replace("-", "0")
      if len(score) == 0:
                return 0
@@ -83,17 +90,26 @@ def calculate_frame_score(score):
      if len(score) == 2 and score[1] == "/":
           return 10
 
+def convert_scorestring_to_frames(scorestring):
+     frame_strings = scorestring.split()
+     frame_objects = []
+     for i, frame in enumerate(frame_strings):
+          frame_objects.append(Frame(frame, i))
+     print(frame_objects)
+     return frame_objects
+          
+
 
 def calculate_total_score(series):
      list_of_frames = series.split()
      total_score = 0
 
      for frame in list_of_frames:
-          total_score += calculate_frame_score(frame)
+          total_score += calculate_frame_total(frame)
      
      for (index, score) in enumerate(list_of_frames[:-1]):
           next_roll = list_of_frames[index + 1][0]
-          next_frame_score = calculate_frame_score(list_of_frames[index + 1])
+          next_frame_score = calculate_frame_total(list_of_frames[index + 1])
           if score == 'X':
                 total_score += next_frame_score
           if score.endswith('/'):
