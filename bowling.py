@@ -76,13 +76,12 @@ class Frame:
           self.firstRoll = scores[0]
           self.index = index
           self.scores = scores.replace("-", "0")
-          self.is_a_strike = False
+          self.is_a_strike = self.scores == "X"
           
      def total(self):
           if len(self.scores) == 0:
                return 0
-          if self.scores == "X":
-                    self.is_a_strike = True
+          if self.is_a_strike:
                     return 10
           if len(self.scores) == 1 and self.scores.isnumeric():
                     return int(self.scores)
