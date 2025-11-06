@@ -33,7 +33,7 @@ class BowlingTest(unittest.TestCase):
      def test_series_of_ten_scores(self):
           self.check_result_and_print_output("6- 53 -2 81 34 61 18 33 52 -1", 62)
      
-     @unittest.skip
+     # @unittest.skip
      def test_series_including_strike(self):
           self.check_result_and_print_output("41 X -6", 27)
 
@@ -76,11 +76,13 @@ class Frame:
           self.firstRoll = scores[0]
           self.index = index
           self.scores = scores.replace("-", "0")
+          self.is_a_strike = False
           
      def total(self):
           if len(self.scores) == 0:
                return 0
           if self.scores == "X":
+                    self.is_a_strike = True
                     return 10
           if len(self.scores) == 1 and self.scores.isnumeric():
                     return int(self.scores)
@@ -110,9 +112,13 @@ def calculate_total_score(score_series):
      list_of_frames = convert_scorestring_to_frames(score_series)
      total_score = 0
 
-     for frame in list_of_frames:
+     for frame in list_of_frames[:-1]:
           total_score += frame.total()
-                
+          if frame.is_a_strike:
+               total_score += list_of_frames[frame.index + 1].total()
+     
+     total_score += list_of_frames[-1].total()
+     
      return total_score
 
 if __name__ == '__main__':
