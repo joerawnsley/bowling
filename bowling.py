@@ -37,11 +37,11 @@ class BowlingTest(unittest.TestCase):
      def test_series_including_strike(self):
           self.check_result_and_print_output("41 X -6", 27)
 
-     @unittest.skip
+     # @unittest.skip
      def test_series_including_two_strikes(self):
           self.check_result_and_print_output("43 X X 71 42", 59)
      
-     @unittest.skip
+     # @unittest.skip
      def test_series_including_spare(self):
           self.check_result_and_print_output("35 4/ 34", 28)
      
@@ -73,10 +73,10 @@ class BowlingTest(unittest.TestCase):
 
 class Frame:
      def __init__(self, scores, index):
-          self.firstRoll = scores[0]
           self.index = index
           self.scores = scores.replace("-", "0")
           self.is_a_strike = self.scores == "X"
+          self.is_a_spare = self.scores.endswith("/")
           
      def total(self):
           if len(self.scores) == 0:
@@ -93,8 +93,11 @@ class Frame:
           if len(self.scores) == 2 and self.scores[1] == "/":
                return 10
      
-     def first_roll(self, scores):
-          pass
+     def first_roll(self):
+          if self.is_a_strike:
+               return 10
+          else:
+               return int(self.scores[0])
 
 
 def convert_scorestring_to_frames(score_series):
@@ -112,9 +115,15 @@ def calculate_total_score(score_series):
      total_score = 0
 
      for frame in list_of_frames[:-1]:
-          total_score += frame.total()
-          if frame.is_a_strike:
-               total_score += list_of_frames[frame.index + 1].total()
+          this_frame = frame
+          next_frame = list_of_frames[frame.index + 1]
+          
+          total_score += this_frame.total()
+          
+          if this_frame.is_a_strike:
+               total_score += next_frame.total()
+          if this_frame.is_a_spare:
+               total_score += next_frame.first_roll()
      
      total_score += list_of_frames[-1].total()
      
